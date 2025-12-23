@@ -16,7 +16,7 @@ class CustomAgents:
     def expert_travel_agent(self):
         return Agent(
             role="Expert Travel Agent",
-            backstory=dedent(f"""Define agent 1 backstory here"""),
+            backstory=dedent(f"""I am an expert in travel planning and logistics. I have decades of experience in travel planning, logistics and making itineraries for clients."""),
             goal=dedent(f"""
             Create a 7-day travel itinerary with detailed per-day plans, including budget, packing suggestions, and safety tips.
             """),
@@ -29,8 +29,8 @@ class CustomAgents:
     def city_selection_agent(self):
         return Agent(
             role="City Selection Expert",
-            backstory=dedent(f"""A expert in analyzing travel data to pick ideal destinations"""),
-            goal=dedent(f"""Select the best city based on weather, season, and prices"""),
+            backstory=dedent(f"""A expert in analyzing travel data to pick ideal destinations."""),
+            goal=dedent(f"""Select the best city based on weather, season, prices, and activities."""),
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
@@ -39,9 +39,9 @@ class CustomAgents:
     
     def local_tour_guide(self):
         return Agent(
-            role="City Selection Expert",
-            backstory=dedent(f"""A expert in analyzing travel data to pick ideal destinations"""),
-            goal=dedent(f"""Select the best city based on weather, season, and prices"""),
+            role="Local Tour Guide",
+            backstory=dedent(f"""A knowledgeable local guide with extensive information about the city, it's attractions and customs."""),
+            goal=dedent(f"""provide the best insights about the selectedcity, including hidden gems, cultural hotspots, and practical travel tips."""),
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
