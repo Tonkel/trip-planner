@@ -13,22 +13,35 @@ class CustomAgents:
         self.OpenAIGPT4 = ChatOpenAI(model_name="gpt-4", temperature=0.7)
         self.Ollama = Ollama(model="openhermes")
 
-    def agent_1_name(self):
+    def expert_travel_agent(self):
         return Agent(
-            role="Define agent 1 role here",
+            role="Expert Travel Agent",
             backstory=dedent(f"""Define agent 1 backstory here"""),
-            goal=dedent(f"""Define agent 1 goal here"""),
+            goal=dedent(f"""
+            Create a 7-day travel itinerary with detailed per-day plans, including budget, packing suggestions, and safety tips.
+            """),
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
             llm=self.OpenAIGPT35,
         )
 
-    def agent_2_name(self):
+    def city_selection_agent(self):
         return Agent(
-            role="Define agent 2 role here",
-            backstory=dedent(f"""Define agent 2 backstory here"""),
-            goal=dedent(f"""Define agent 2 goal here"""),
+            role="City Selection Expert",
+            backstory=dedent(f"""A expert in analyzing travel data to pick ideal destinations"""),
+            goal=dedent(f"""Select the best city based on weather, season, and prices"""),
+            # tools=[tool_1, tool_2],
+            allow_delegation=False,
+            verbose=True,
+            llm=self.OpenAIGPT35,
+        )
+    
+    def local_tour_guide(self):
+        return Agent(
+            role="City Selection Expert",
+            backstory=dedent(f"""A expert in analyzing travel data to pick ideal destinations"""),
+            goal=dedent(f"""Select the best city based on weather, season, and prices"""),
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
