@@ -2,6 +2,8 @@
 
 # environment variables
 .env
+.python-version
+.poetry.lock
 
 #Cache folders
 __pycache__/

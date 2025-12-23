@@ -1,9 +1,35 @@
 [tool.poetry]
+name = "trip-planner"
+version = "0.1.0"
+description = "simple AI trip planner"
+authors = ["Joao Moura, Brandon Hancock"]
 
 [tool.poetry.dependencies]
-python = ">=3.10.0"
-crewai = "0.1.24"
+python = ">=3.10.0, <3.13"
+crewai = ">=0.1.24"
 unstructured = "==0.10.25"
-pyowm = "3.3.0"
+pyowm = ">=3.3.0"
 tools = "^0.1.9"
-python-dotenv = "1.0.0"
+python-dotenv = ">=1.0.0"
+
+
+#this tools allows us to check our python code for errors
+[tool.pyright] 
+# https://github.com/microsoft/pyright/blob/main/docs/coinfiguration.md
+useLibraryCodeForTypes = true
+exclude = [".cache"]
+venvPath = "C:\\Users\\willt\\AppData\\Local\\pypoetry\\Cache\\virtualenvs"
+venv = "trip-planner-LZ-fiUKE-py3.11"
+
+#checks for errors and styling issues
+[tool.ruff]
+# httrps://beta.ruff.rs/docs/coinfiguration/
+select = ['E', 'W', 'F', 'I', 'B', 'C4', 'ARG', 'SIM']
+ignore = ['W291', 'W292', 'W293']
+
+#specifies that poetry is managing our dependencies
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+# Build with "poetry install --no root"
