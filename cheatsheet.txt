@@ -5,10 +5,16 @@ Creating Agents Cheat Sheet:
     Build a top down structure of the crew.
 
 Goal:
+- create a 7-day travel itinerary with detailed per-day plans, including budget, packing suggestions, and safety tips.
+
 
 Captain/Manager/Boss:
+- Expert travel agent
 
 Employees/Experts to hire:
+- City selection expert (find all the good cities/places to visit in a country)
+- Local tour guide (expert "per day" plannner)
+
 
 Notes:
 - Agents should be results driven and have a clear goal in mind
