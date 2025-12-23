@@ -4,8 +4,8 @@ from langchain_openai import ChatOpenAI
 from decouple import config
 
 from textwrap import dedent
-from agents import CustomAgents
-from tasks import CustomTasks
+from agents import TravelAgents
+from tasks import TripTasks
 
 # Install duckduckgo-search for this example:
 # !pip install -U duckduckgo-search
@@ -21,35 +21,51 @@ os.environ["OPENAI_ORGANIZATION"] = config("OPENAI_ORGANIZATION_ID")
 # You can define as many agents and tasks as you want in agents.py and tasks.py
 
 
-class CustomCrew:
-    def __init__(self, var1, var2):
-        self.var1 = var1
-        self.var2 = var2
+class TripCrew:
+    def __init__(self, origin, cities, date_range, interests):
+        self.origin = origin
+        self.cities = cities
+        self.date_range = date_range
+        self.interests = interests
 
     def run(self):
         # Define your custom agents and tasks in agents.py and tasks.py
-        agents = CustomAgents()
-        tasks = CustomTasks()
+        agents = TravelAgents()
+        tasks =  TripTasks()
 
         # Define your custom agents and tasks here
-        custom_agent_1 = agents.agent_1_name()
-        custom_agent_2 = agents.agent_2_name()
+        expert_travel_agent = agents.expert_travel_agent()
+        city_selection_agent = agents.city_selection_agent()
+        local_tour_guide = agents.local_tour_guide()
 
         # Custom tasks include agent name and variables as input
-        custom_task_1 = tasks.task_1_name(
-            custom_agent_1,
-            self.var1,
-            self.var2,
+        
+        identify_city_task = tasks.identify_city_task(
+            local_tour_guide,
+            self.origin,
+            self.cities,
+            self.interests,
+            self.date_range,
         )
 
-        custom_task_2 = tasks.task_2_name(
-            custom_agent_2,
+        gather_city_info = tasks.gather_city_info_task(
+            city_selection_agent,
+            self.origin,
+            self.interests,
+            self.date_range
+        )
+
+        plan_itinerary_task = tasks.plan_itinerary_task(
+            expert_travel_agent,
+            self.origin,
+            self.interests,
+            self.date_range,    
         )
 
         # Define your custom crew here
         crew = Crew(
-            agents=[custom_agent_1, custom_agent_2],
-            tasks=[custom_task_1, custom_task_2],
+            agents=[expert_travel_agent, city_selection_agent, local_tour_guide],
+            tasks=[identify_city_task, gather_city_info, plan_itinerary_task],
             verbose=True,
         )
 
