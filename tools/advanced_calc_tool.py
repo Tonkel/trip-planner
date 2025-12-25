@@ -1,4 +1,4 @@
-from langchain.tools import tool
+from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 
 #This is unnecessary for simple tools, but it is a good practice for more complex tools, you can use the BaseModel class to define the input parameters

@@ -1,9 +1,9 @@
 from crewai import Agent
 from textwrap import dedent
-from langchain_community.llms import OpenAI, Ollama
+from langchain_ollama import OllamaLLM
 from langchain_openai import ChatOpenAI
 from tools.search_tool import SearchTools
-from tools.calculator_tool import CalculatorTools
+from tools.calculator_tool import CalculatorTool
 
 
 # This is an example of how to define custom agents.
@@ -13,7 +13,7 @@ class TravelAgents:
     def __init__(self):
         self.OpenAIGPT = ChatOpenAI(model_name="gpt-5.1", temperature=0.7)
         self.OpenAIGPT5mini = ChatOpenAI(model_name="gpt-5-mini", temperature=0.7)
-        self.Ollama = Ollama(model="openhermes")
+        self.Ollama = OllamaLLM(model="openhermes")
 
     def expert_travel_agent(self):
         return Agent(
@@ -22,7 +22,7 @@ class TravelAgents:
             goal=dedent(f"""
             Create a 7-day travel itinerary with detailed per-day plans, including budget, packing suggestions, and safety tips.
             """),
-            tools=[SearchTools.search_internet, CalculatorTools.calculate],
+            tools=[SearchTools(), CalculatorTool()],
             allow_delegation=False,
             verbose=True,
             llm=self.OpenAIGPT,
@@ -33,7 +33,7 @@ class TravelAgents:
             role="City Selection Expert",
             backstory=dedent(f"""A expert in analyzing travel data to pick ideal destinations."""),
             goal=dedent(f"""Select the best city based on weather, season, prices, and activities."""),
-            tools=[SearchTools.search_internet],
+            tools=[SearchTools()],
             allow_delegation=False,
             verbose=True,
             llm=self.OpenAIGPT,
@@ -44,7 +44,7 @@ class TravelAgents:
             role="Local Tour Guide",
             backstory=dedent(f"""A knowledgeable local guide with extensive information about the city, it's attractions and customs."""),
             goal=dedent(f"""provide the best insights about the selected city, including hidden gems, cultural hotspots, and practical travel tips."""),
-            tools=[SearchTools.search_internet],
+            tools=[SearchTools()],
             allow_delegation=False,
             verbose=True,
             llm=self.OpenAIGPT,

@@ -1,8 +1,6 @@
 import os
-from crewai import Agent, Task, Crew, Process
-from langchain_openai import ChatOpenAI
+from crewai import Crew
 from decouple import config
-
 from textwrap import dedent
 from agents import TravelAgents
 from tasks import TripTasks
@@ -10,9 +8,9 @@ from tasks import TripTasks
 # Install duckduckgo-search for this example:
 # !pip install -U duckduckgo-search
 
-from langchain.tools import DuckDuckGoSearchRun
+#from langchain.tools import DuckDuckGoSearchRun
 
-search_tool = DuckDuckGoSearchRun()
+#search_tool = DuckDuckGoSearchRun()
 
 os.environ["OPENAI_API_KEY"] = config("OPENAI_API_KEY")
 os.environ["OPENAI_ORGANIZATION"] = config("OPENAI_ORGANIZATION_ID")
@@ -75,14 +73,28 @@ class TripCrew:
 
 # This is the main function that you will use to run your custom crew.
 if __name__ == "__main__":
-    print("## Welcome to Crew AI Template")
-    print("-------------------------------")
-    var1 = input(dedent("""Enter variable 1: """))
-    var2 = input(dedent("""Enter variable 2: """))
-
-    custom_crew = CustomCrew(var1, var2)
-    result = custom_crew.run()
+    print("## Welcome to Trip Planner Crew")
+    print('-------------------------------')
+    location = input(
+    dedent("""
+      From where will you be traveling from?
+    """))
+    cities = input(
+    dedent("""
+      What are the cities options you are interested in visiting?
+    """))
+    date_range = input(
+    dedent("""
+      What is the date range you are interested in traveling?
+    """))
+    interests = input(
+    dedent("""
+      What are some of your high level interests and hobbies?
+    """))
+  
+    trip_crew = TripCrew(location, cities, date_range, interests)
+    result = trip_crew.run()
     print("\n\n########################")
-    print("## Here is you custom crew run result:")
+    print("## Here is you Trip Plan")
     print("########################\n")
     print(result)

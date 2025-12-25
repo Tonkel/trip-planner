@@ -1,18 +1,65 @@
-from langchain_core.tools import tool
+from crewai.tools import BaseTool
+import ast
+import operator
+import re
 
-#This is all you need for a simple tool. Once the agent calls the tool it will automatically know which parameters to pass in.
 
-class CalculatorTool:
+class CalculatorTool(BaseTool):
+    name: str = "Make a calculation"
+    description: str = (
+        "Useful to perform any mathematical calculations, like sum, minus, multiplication, division, etc. "
+        "The input to this tool should be a mathematical expression, a couple examples are `200*7` or `5000/2*10.`"
+    )
 
-    #use the @tool decorator to define the tool and make it available to the agent
-    @tool("Make a calculation")
-    def calculate(operation: str) -> float:
-        """Useful to perform any mathematical calculations, like sum, minus, multiplication, division, etc. The input to this tool should be a mathematical expression, a couple examples are `200*7` or `5000/2*10.`"""
+    def _run(self, operation: str) -> str:
+        """Perform the calculation using safe AST evaluation."""
         try:
-            return eval(operation)
-        except Exception as e:
+            # Define allowed operators for safe evaluation
+            allowed_operators = {
+                ast.Add: operator.add,
+                ast.Sub: operator.sub,
+                ast.Mult: operator.mul,
+                ast.Div: operator.truediv,
+                ast.Pow: operator.pow,
+                ast.Mod: operator.mod,
+                ast.USub: operator.neg,
+                ast.UAdd: operator.pos,
+            }
+            
+            # Parse and validate the expression
+            if not re.match(r'^[0-9+\-*/().% ]+$', operation):
+                return "Error: Invalid characters in mathematical expression"
+            
+            # Parse the expression
+            tree = ast.parse(operation, mode='eval')
+            
+            def _eval_node(node):
+                if isinstance(node, ast.Expression):
+                    return _eval_node(node.body)
+                elif isinstance(node, ast.Constant):  # Python 3.8+
+                    return node.value
+                elif isinstance(node, ast.Num):  # Python < 3.8
+                    return node.n
+                elif isinstance(node, ast.BinOp):
+                    left = _eval_node(node.left)
+                    right = _eval_node(node.right)
+                    op = allowed_operators.get(type(node.op))
+                    if op is None:
+                        raise ValueError(f"Unsupported operator: {type(node.op).__name__}")
+                    return op(left, right)
+                elif isinstance(node, ast.UnaryOp):
+                    operand = _eval_node(node.operand)
+                    op = allowed_operators.get(type(node.op))
+                    if op is None:
+                        raise ValueError(f"Unsupported operator: {type(node.op).__name__}")
+                    return op(operand)
+                else:
+                    raise ValueError(f"Unsupported node type: {type(node).__name__}")
+            
+            result = _eval_node(tree)
+            return str(result)
+            
+        except (SyntaxError, ValueError, ZeroDivisionError, TypeError) as e:
             return f"Error: {str(e)}"
-        
-    def tools():
-        return [CalculatorTool.calculate]
-        
+        except Exception as e:
+            return "Error: Invalid mathematical expression"
