@@ -1,3 +1,15 @@
+# Overview
+This is my first attempt at a travel agent crew, or any crew for that matter. A lot of the credit goes to crewAIInc for insparation on the tools and tasks (I had to reformat a bit, especially reformatting the tools so that they are BaseTools, and will be accepted by crewAIs pydantic model, I don't believe you can pass through Unstructured tools), and, of course, credit goes to Cursor, especially for help debugging. 
+
+# Installation
+1. Clone repo
+2. Install Poetry if you havent already
+3. "Poetry lock" (Updates the poetry.lock file based on your poetry.toml file)"
+4. "Poetry Install" Installs dependencies from the lock file into the Venv (creates the venv if it doesnt exist)
+5. "poetry shell" (optional)(Activates venv for your current terminal session)
+
+# File Overview
+
 ## agents.py
 This file contains the definition of custom agents.
 To create a Agent, you need to define the following:
