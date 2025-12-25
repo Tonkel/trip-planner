@@ -5,6 +5,10 @@ TODO:
 - Add a task, and possibly an agent? that is in charge of taking the crew output,
   formatting it, and placing the formatted output nicely into a new google docs. 
   - possible feature, if you are running the same prompt, just edit the previously opened google docs.
+  
+- Add some UI, like linking google docs/2FA. Forms for input, boxes that where the old input question fades out
+  then the new one fades in a bit more quickly so it is a smoother input experience, preview output/have on site
+  viewing of the google docs, or just a link to the google docs that is created/edited.
 
 
 
