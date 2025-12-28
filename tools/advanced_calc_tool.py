@@ -1,6 +1,8 @@
 from langchain_core.tools import tool
 from pydantic import BaseModel, Field
 
+#reformat this as a BaseTool
+
 #This is unnecessary for simple tools, but it is a good practice for more complex tools, you can use the BaseModel class to define the input parameters
 
 #this is a pydantic model that defines the input parameters for the tool
